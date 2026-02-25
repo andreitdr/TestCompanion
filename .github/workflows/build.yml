@@ -29,9 +29,6 @@ jobs:
         with:
           dotnet-version: ${{ env.DOTNET_VERSION }}
 
-      - name: Restore
-        run: dotnet restore ${{ env.PROJECT_PATH }}
-
       - name: Publish
         run: >
           dotnet publish ${{ env.PROJECT_PATH }}
@@ -40,7 +37,6 @@ jobs:
           -r ${{ matrix.rid }}
           --self-contained
           -p:PublishSingleFile=true
-          --no-restore
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
@@ -65,9 +61,6 @@ jobs:
         with:
           dotnet-version: ${{ env.DOTNET_VERSION }}
 
-      - name: Restore
-        run: dotnet restore ${{ env.PROJECT_PATH }}
-
       - name: Publish
         run: >
           dotnet publish ${{ env.PROJECT_PATH }}
@@ -76,7 +69,6 @@ jobs:
           -r ${{ matrix.rid }}
           --self-contained
           -p:PublishSingleFile=true
-          --no-restore
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
@@ -101,9 +93,6 @@ jobs:
         with:
           dotnet-version: ${{ env.DOTNET_VERSION }}
 
-      - name: Restore
-        run: dotnet restore ${{ env.PROJECT_PATH }}
-
       - name: Publish
         run: >
           dotnet publish ${{ env.PROJECT_PATH }}
@@ -112,7 +101,6 @@ jobs:
           -r ${{ matrix.rid }}
           --self-contained
           -p:PublishSingleFile=true
-          --no-restore
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
@@ -120,4 +108,3 @@ jobs:
           name: TestCompanion-${{ matrix.rid }}
           path: TestCompanion/bin/Release/${{ env.FRAMEWORK }}/${{ matrix.rid }}/publish/
           if-no-files-found: error
-
