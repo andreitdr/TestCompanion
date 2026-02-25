@@ -9,7 +9,7 @@ on:
   workflow_dispatch:
     inputs:
       force_release:
-        description: 'Force a release without a tag'
+        description: 'Force a release without a tag '
         required: false
         type: boolean
 
