@@ -1,0 +1,123 @@
+name: Build
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+env:
+  DOTNET_VERSION: '10.0.x'
+  PROJECT_PATH: TestCompanion/TestCompanion.csproj
+  FRAMEWORK: net10.0-desktop
+
+jobs:
+  build-linux:
+    name: Linux (${{ matrix.rid }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        rid: [ linux-x64, linux-arm64 ]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+
+      - name: Restore
+        run: dotnet restore ${{ env.PROJECT_PATH }}
+
+      - name: Publish
+        run: >
+          dotnet publish ${{ env.PROJECT_PATH }}
+          -c Release
+          -f ${{ env.FRAMEWORK }}
+          -r ${{ matrix.rid }}
+          --self-contained
+          -p:PublishSingleFile=true
+          --no-restore
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: TestCompanion-${{ matrix.rid }}
+          path: TestCompanion/bin/Release/${{ env.FRAMEWORK }}/${{ matrix.rid }}/publish/
+          if-no-files-found: error
+
+  build-windows:
+    name: Windows (${{ matrix.rid }})
+    runs-on: windows-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        rid: [ win-x64, win-x86, win-arm64 ]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+
+      - name: Restore
+        run: dotnet restore ${{ env.PROJECT_PATH }}
+
+      - name: Publish
+        run: >
+          dotnet publish ${{ env.PROJECT_PATH }}
+          -c Release
+          -f ${{ env.FRAMEWORK }}
+          -r ${{ matrix.rid }}
+          --self-contained
+          -p:PublishSingleFile=true
+          --no-restore
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: TestCompanion-${{ matrix.rid }}
+          path: TestCompanion/bin/Release/${{ env.FRAMEWORK }}/${{ matrix.rid }}/publish/
+          if-no-files-found: error
+
+  build-macos:
+    name: macOS (${{ matrix.rid }})
+    runs-on: macos-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        rid: [ osx-x64, osx-arm64 ]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+
+      - name: Restore
+        run: dotnet restore ${{ env.PROJECT_PATH }}
+
+      - name: Publish
+        run: >
+          dotnet publish ${{ env.PROJECT_PATH }}
+          -c Release
+          -f ${{ env.FRAMEWORK }}
+          -r ${{ matrix.rid }}
+          --self-contained
+          -p:PublishSingleFile=true
+          --no-restore
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: TestCompanion-${{ matrix.rid }}
+          path: TestCompanion/bin/Release/${{ env.FRAMEWORK }}/${{ matrix.rid }}/publish/
+          if-no-files-found: error
+
