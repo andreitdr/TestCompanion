@@ -1,0 +1,40 @@
+<Project Sdk="Uno.Sdk">
+    <PropertyGroup>
+        <TargetFrameworks>net10.0-desktop</TargetFrameworks>
+
+        <OutputType>Exe</OutputType>
+        <UnoSingleProject>true</UnoSingleProject>
+        <RootNamespace>TestCompanion</RootNamespace>
+        <AssemblyName>TestCompanion</AssemblyName>
+
+        <!-- Display name -->
+        <ApplicationTitle>Test Companion</ApplicationTitle>
+        <!-- App Identifier -->
+        <ApplicationId>com.testcompanion.app</ApplicationId>
+        <!-- Versions -->
+        <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
+        <ApplicationVersion>1</ApplicationVersion>
+        <!-- Package Publisher -->
+        <ApplicationPublisher>O=TestCompanion</ApplicationPublisher>
+        <!-- Package Description -->
+        <Description>Test Companion - Testing session management tool powered by Uno Platform.</Description>
+
+        <!--
+          UnoFeatures are used to quickly add and manage features enabled for your app.
+          https://aka.platform.uno/singleproject-features
+        -->
+        <UnoFeatures>
+            Lottie;
+            MediaElement;
+            Toolkit;
+            SkiaRenderer;
+        </UnoFeatures>
+    </PropertyGroup>
+    <ItemGroup>
+      <Folder Include="Components\Pages\" />
+    </ItemGroup>
+    <ItemGroup>
+      <None Include="Assets\coverage.ini" CopyToOutputDirectory="PreserveNewest" Link="Assets\coverage.ini" />
+    </ItemGroup>
+
+</Project>
